@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francesca Suzzoni | Créatrice Visuelle & Monteuse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* === VARIABLES & RESET === */
+        :root {
+            --bg-base: #0f0c29;
+            --color-1: #ff007a; /* Neon Pink */
+            --color-2: #7000ff; /* Deep Purple */
+            --color-3: #00f0ff; /* Cyan */
+            --color-4: #ff8c00; /* LA Sunset Orange */
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Remplacé par un curseur custom JS */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* === ARRIÈRE-PLAN ANIMÉ COLORÉ === */
+        .background-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #0f0c29;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate;
+        }
+
+        .orb-1 { width: 40vw; height: 40vw; background: var(--color-1); top: -10%; left: -10%; animation-delay: 0s; }
+        .orb-2 { width: 50vw; height: 50vw; background: var(--color-2); bottom: -20%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 35vw; height: 35vw; background: var(--color-3); top: 40%; left: 40%; animation-delay: -10s; }
+        .orb-4 { width: 45vw; height: 45vw; background: var(--color-4); top: -20%; right: 20%; opacity: 0.4; animation-delay: -15s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* === CURSEUR CUSTOM === */
+        .cursor-dot {
+            width: 8px; height: 8px; background: white;
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 2px solid var(--color-3);
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* === TYPOGRAPHIE === */
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--color-1), var(--color-4), var(--color-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 5s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+            padding: 15px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--color-3); }
+
+        /* === LAYOUT GLOBAL === */
+        section {
+            min-height: 100vh;
+            padding: 120px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        /* === HERO SECTION === */
+        #hero {
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 7rem;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: var(--color-3);
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid var(--color-1);
+            font-size: 0.9rem;
+            background: rgba(255, 0, 122, 0.1);
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: var(--color-1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 122, 0.4);
+        }
+
+        /* === NOUVELLE TIMELINE ÉVOLUTION === */
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 100px;
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--color-1), var(--color-3), var(--color-4));
+            transform: translateX(-50%);
+            border-radius: 10px;
+            opacity: 0.3;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            width: 100%;
+            position: relative;
+        }
+
+        .timeline-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            width: 45%;
+        }
+
+        .step-image-wrapper {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .step-image {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: grayscale(20%);
+        }
+
+        .timeline-step:hover .step-image {
+            filter: grayscale(0%);
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .timeline-step:nth-child(odd):hover .step-image {
+            border-color: var(--color-1);
+            box-shadow: 0 20px 50px rgba(255, 0, 122, 0.3);
+            transform: scale(1.05) translateY(-10px) rotate(2deg);
+        }
+
+        .timeline-step:nth-child(even):hover .step-image {
+            border-color: var(--color-3);
+            box-shadow: 0 20px 50px rgba(0, 240, 255, 0.3);
+            transform: scale(1.05) translateY(-10px) rotate(-2deg);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--bg-base);
+            border: 3px solid var(--color-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(255, 0, 122, 0.4);
+            transition: all 0.3s;
+        }
+
+        .timeline-step:nth-child(even) .step-number {
+            border-color: var(--color-3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .timeline-step:hover .step-number {
+            transform: translate(-50%, -50%) scale(1.2);
+            background: var(--glass-bg);
+        }
+
+        .photo-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .step-image-wrapper:hover .photo-hint {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            margin-bottom: 50px;
+            line-height: 1.1;
+        }
+
+        /* === OBJECTIF L.A. (Sunset Vibe) === */
+        #objectif {
+            text-align: center;
+        }
+
+        .la-banner {
+            background: linear-gradient(to right, #ff007a, #ff8c00);
+            border-radius: 30px;
+            padding: 80px 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.3);
+        }
+
+        .la-banner h2 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .la-banner p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+        }
+
+        /* === CE QUE J'AI VOULU TRANSMETTRE === */
+        .transmettre-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .creative-text-block {
+            flex: 1;
+        }
+
+        .creative-text-block p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-left: 2px solid var(--color-1);
+            padding-left: 20px;
+        }
+
+        .kinetic-box {
+            flex: 1;
+            height: 400px;
+            background: var(--glass-bg);
+            border: 1px solid var(--color-3);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 50px rgba(0, 240, 255, 0.2);
+        }
+
+        .kinetic-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 4rem;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            position: absolute;
+            white-space: nowrap;
+            animation: slideLeft 10s linear infinite;
+        }
+
+        .kinetic-text:nth-child(1) { top: 10%; animation-duration: 12s; color: var(--color-1); -webkit-text-stroke: 0; }
+        .kinetic-text:nth-child(2) { top: 35%; animation-direction: reverse; animation-duration: 8s; }
+        .kinetic-text:nth-child(3) { top: 60%; animation-duration: 15s; color: var(--color-3); -webkit-text-stroke: 0; }
+        .kinetic-text:nth-child(4) { top: 85%; animation-direction: reverse; animation-duration: 10s; }
+
+        @keyframes slideLeft {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-150%); }
+        }
+
+        /* === ANIMATIONS SCROLL === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 992px) {
+            .timeline-container::before {
+                display: none; /* Cache la ligne sur mobile pour plus de clarté */
+            }
+            .timeline-step, .timeline-step:nth-child(even) {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            .step-content, .step-image-wrapper { width: 100%; }
+            .step-number {
+                position: relative;
+                transform: none;
+                left: 0;
+                top: 0;
+                margin: 0 auto 20px auto;
+            }
+            .timeline-step:hover .step-number {
+                transform: scale(1.1);
+            }
+            .transmettre-container {
+                flex-direction: column;
+            }
+            .hero-title { font-size: 4rem; }
+            .section-title { font-size: 3rem; text-align: center; }
+            nav { width: 90%; justify-content: space-around; padding: 15px 20px; }
+            nav a { font-size: 0.8rem; }
+            .la-banner h2 { font-size: 3rem; }
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Arrière-plan dynamique -->
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- Curseur Personnalisé (affiché via JS) -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Menu de navigation -->
+    <nav>
+        <a href="#hero">Accueil</a>
+        <a href="#evolution">Mon Évolution</a>
+        <a href="#transmettre">Le Projet</a>
+        <a href="#objectif">Objectif L.A.</a>
+    </nav>
+
+    <!-- SECTION HERO -->
+    <section id="hero" class="reveal">
+        <h1 class="hero-title"><span class="gradient-text">Francesca</span><br>Suzzoni</h1>
+        <h2 class="hero-subtitle">But MMI 1</h2>
+    </section>
+
+    <!-- SECTION ÉVOLUTION -->
+    <section id="evolution" class="reveal">
+        <h2 class="section-title text-center" style="text-align: center;">Mon <span class="gradient-text">Histoire.</span></h2>
+        
+        <div class="timeline-container">
+            <!-- Etape 1: Enfance -->
+            <div class="timeline-step">
+                <div class="step-number">01</div>
+                <div class="step-content glass-panel">
+                    <h3 style="color: var(--color-1); font-size: 1.8rem; margin-bottom: 15px; font-family: 'Syne', sans-serif;">L'Appel de la Scène</h3>
+                    <p>Enfant, le monde du spectacle me fascinait. Inspirée par ma marraine (actrice, chanteuse et présentatrice), je rêvais d'être actrice. J'ai pratiqué le théâtre pendant quatre ans. Cette expérience a été fondamentale pour m'aider a vaincre ma timidité, mais également pour développer mon imagination et un fort intérêt pour le cinéma.</p>
+                </div>
+                <div class="step-image-wrapper">
+                    <!-- REMPLACEZ CE LIEN SRC PAR VOTRE PHOTO ENFANT -->
+                    <img src="IMG_coco.jpg" alt="Francesca enfant théâtre" class="step-image">
+            
+                </div>
+            </div>
+
+            <!-- Etape 2: TikTok -->
+            <div class="timeline-step">
+                <div class="step-number">02</div>
+                <div class="step-content glass-panel">
+                    <h3 style="color: var(--color-3); font-size: 1.8rem; margin-bottom: 15px; font-family: 'Syne', sans-serif;">Le Déclic des "Édits"</h3>
+                    <p>Au fil du temps, mon rapport à l'image a évolué. Je me suis amusée à faire des "édits" vidéo sur TikTok. C'est là que j'ai eu un véritable déclic : je prenais bien plus de plaisir à assembler les plans, choisir la musique, et caler le rythme qu'à jouer moi-même.</p>
+                </div>
+                <div class="step-image-wrapper">
+                    <!-- REMPLACEZ CE LIEN SRC PAR VOTRE PHOTO ADO/MONTAGE -->
+                    <img src="IMG_2.jpg" alt="Setup montage ou adolescence" class="step-image">
+                    <span class="photo-hint"></span>
+                </div>
+            </div>
+
+            <!-- Etape 3: STMG -->
+            <div class="timeline-step">
+                <div class="step-number">03</div>
+                <div class="step-content glass-panel">
+                    <h3 style="color: var(--color-4); font-size: 1.8rem; margin-bottom: 15px; font-family: 'Syne', sans-serif;">Se Structurer : La STMG</h3>
+                    <p>Au lycée, j'ai fait un choix totalement assumé : le Bac STMG spécialité Mercatique. Les filières générales ne me correspondaient pas. La STMG m'a permis de comprendre le marketing, la communication, et le travail en équipe. Ces compétences en analyse et gestion de projet sont aujourd'hui cruciales pour mon métier de monteuse.</p>
+                </div>
+                <div class="step-image-wrapper">
+                    <!-- REMPLACEZ CE LIEN SRC PAR VOTRE PHOTO LYCÉE -->
+                    <img src="IMG_st.JPG" alt="Période Lycée STMG" class="step-image">
+                    <span class="photo-hint"></span>
+                </div>
+            </div>
+
+            <!-- Etape 4: MMI -->
+            <div class="timeline-step">
+                <div class="step-number">04</div>
+                <div class="step-content glass-panel">
+                    <h3 style="color: var(--color-1); font-size: 1.8rem; margin-bottom: 15px; font-family: 'Syne', sans-serif;">La Révélation : Le BUT MMI</h3>
+                    <p>Suite à des interventions dans mon lycée, j'ai découvert le BUT MMI en Corse. Ça a été une évidence. Cette formation lie tout ce que j'aime : la communication, l'audiovisuel et la création visuelle. Aujourd'hui, j'y perfectionne mes compétences derrière sur les logiciels, confirmant mon ambition de devenir monteuse de clips musicaux.</p>
+                </div>
+                <div class="step-image-wrapper">
+                    <!-- REMPLACEZ CE LIEN SRC PAR VOTRE PHOTO MMI -->
+                    <img src="IMG_mmi.jpg" alt="Francesca en BUT MMI" class="step-image">
+                    <span class="photo-hint"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION "CE QUE J'AI VOULU TRANSMETTRE" (Nouveau Design) -->
+    <section id="transmettre" class="reveal">
+        <div class="glass-panel">
+            <h2 class="section-title">Ce que j'ai voulu <span class="gradient-text">Transmettre.</span></h2>
+            <div class="transmettre-container">
+   <div class="creative-text-block">
+    <p><strong>Un site web pour présenter mon PPP.</strong><br>
+    J'ai créé ce site afin de présenter mon parcours, mes expériences et mon projet professionnel.</p>
+
+    <p>À travers cette réalisation, je mets en avant mon intérêt pour l'audiovisuel et mon ambition de devenir monteuse vidéo.</p>
+
+    <p>Ce projet reflète ma créativité, mon sens de l'organisation et ma passion pour la narration visuelle.</p>
+</div>
+                
+                <!-- Animation Typographique Cinétique (CSS pur) -->
+            <div class="kinetic-box">
+    <div class="kinetic-text">PROJET AVENIR PROJET</div>
+    <div class="kinetic-text">PPP AUDIOVISUEL</div>
+    <div class="kinetic-text">MONTEUSE VIDEO MONTAGE</div>
+    <div class="kinetic-text">CREATIVITE NARRATION</div>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION OBJECTIF L.A. -->
+    <section id="objectif" class="reveal">
+        <div class="la-banner">
+            <h2>LOS ANGELES</h2>
+            <p>Mon ambition dépasse les frontières. Le marché de l'audiovisuel est concurrentiel, mais c'est là que se trouvent les opportunités. Mon but ultime : intégrer une boîte de production musicale à Los Angeles, collaborer avec des artistes internationaux et marquer l'industrie des clips vidéo.</p>
+        </div>
+    </section>
+
+    <!-- SCRIPTS INTERACTIFS -->
+    <script>
+        // 1. Curseur personnalisé réactif
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+
+        window.addEventListener("mousemove", function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Positionnement direct pour le point central
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Léger délai pour le cercle extérieur (effet smooth)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Effet de survol sur les liens
+        const interactiveElements = document.querySelectorAll("a, .tag, .vision-card, .timeline-card");
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                cursorOutline.style.width = "60px";
+                cursorOutline.style.height = "60px";
+                cursorOutline.style.backgroundColor = "rgba(0, 240, 255, 0.2)";
+                cursorOutline.style.border = "none";
+            });
+            el.addEventListener("mouseleave", () => {
+                cursorOutline.style.width = "40px";
+                cursorOutline.style.height = "40px";
+                cursorOutline.style.backgroundColor = "transparent";
+                cursorOutline.style.border = "2px solid var(--color-3)";
+            });
+        });
+
+        // 2. Animations au défilement (Scroll Reveal)
+        const reveals = document.querySelectorAll(".reveal");
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+
+            reveals.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add("active");
+                }
+            });
+        };
+
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll(); // Lancer une fois au chargement
+    </script>
+</body>
+</html>
